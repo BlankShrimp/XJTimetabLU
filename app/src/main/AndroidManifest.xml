@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.blankshrimp.xjtimetablu">
+
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera2" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity><!--Main-->
+
+        <activity
+            android:name=".WebviewActivity"
+            android:label="@string/webview"
+            android:theme="@style/AppThemeCus">
+            <intent-filter>
+                <action android:name="com.example.activitytest.ACTION_START" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="com.LOGIN_ACTIVITY" />
+            </intent-filter>
+        </activity><!--WebView-->
+
+        <activity
+            android:name=".WebviewRegister"
+            android:label="@string/webview"
+            android:theme="@style/AppThemeCus">
+        </activity><!--WebReg-->
+
+        <activity
+            android:name=".ScanActivity"
+            android:label="@string/scan"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppThemeCus">
+            <intent-filter>
+                <action android:name="com.example.activitytest.ACTION_START" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="com.SCAN_ACTIVITY" />
+            </intent-filter>
+        </activity><!--Scan-->
+
+        <activity
+            android:name=".OthersTableViewer"
+            android:theme="@style/AppThemeCus">
+        </activity><!--Others-->
+
+    </application>
+
+</manifest>

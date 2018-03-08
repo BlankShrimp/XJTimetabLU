@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_primary"
+            android:icon="@drawable/ic_primary_timetable"
+            android:title="@string/PrimaryTable" />
+        <item
+            android:id="@+id/nav_special"
+            android:icon="@drawable/ic_special_concern"
+            android:title="@string/SpecialConcern" />
+        <item
+            android:id="@+id/nav_tablelist"
+            android:icon="@drawable/ic_timetable_list"
+            android:title="@string/TableList" />
+        <item
+            android:id="@+id/nav_schedule"
+            android:icon="@drawable/ic_schedule"
+            android:title="@string/Schedule" />
+    </group>
+
+    <item android:title="@string/General">
+        <menu>
+            <item
+                android:id="@+id/nav_settings"
+                android:icon="@drawable/ic_settings"
+                android:title="@string/Settings" />
+            <item
+                android:id="@+id/nav_about"
+                android:icon="@drawable/ic_about"
+                android:title="@string/About" />
+        </menu>
+    </item>
+
+</menu>

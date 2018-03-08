@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/view_weekly"
+        android:checkable="true"
+        android:checked="true"
+        android:orderInCategory="100"
+        android:title="@string/viewWeekly"
+        app:actionLayout="@layout/view_weekly"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/generate_qr"
+        android:orderInCategory="101"
+        android:title="@string/generateQR"
+        app:showAsAction="never" />
+</menu>

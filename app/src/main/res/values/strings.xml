@@ -1,0 +1,81 @@
+<resources>
+    <string name="app_name">XJTimetabLU</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_settings">Settings</string>
+
+    <!--Nav Menu-->
+    <string name="PrimaryTable">Primary Table</string>
+    <string name="SpecialConcern">Special Concern</string>
+    <string name="TableList">Tables List</string>
+    <string name="Schedule">Schedule</string>
+    <string name="Settings">Settings</string>
+    <string name="About">About</string>
+    <string name="General">General</string>
+
+    <!--Timetable Fragment-->
+    <string name="leader">Teacher: </string>
+    <string name="location">Location: </string>
+    <string name="weeks">Weeks: </string>
+    <string name="type">Type: </string>
+    <string name="classNo">Class Number: </string>
+    <string name="done">Done</string>
+
+    <string name="Monday">Mon.</string>
+    <string name="Tuesday">Tue.</string>
+    <string name="Wednesday">Wed.</string>
+    <string name="Thursday">Thu.</string>
+    <string name="Friday">Fri.</string>
+    <string name="Saturday">Sat.</string>
+    <string name="Sunday">Sun.</string>
+
+    <string name="noFavYet">There\'s no special concern table yet.</string>
+    <string name="noPrimaryYet">There\'s no primary table yet.</string>
+    <string name="naviToFav">Please click Navi Button and turn to Table List, </string>
+    <string name="naviToFav2">find one or add a new one, and long press on it to set.</string>
+
+    <string name="winterHoliday"> - Winter Holiday</string>
+    <string name="summerHoliday"> - Summer Holiday</string>
+    <string name="week"> - Week </string>
+
+    <!--Menu-->
+    <string name="viewWeekly">Current Week</string>
+    <string name="addNewTable">Add Table</string>
+    <string name="addByLogin">Login</string>
+    <string name="addByScan">Scan QR Code</string>
+    <string name="generateQR">Generate QR Code</string>
+    <string name="dismissQR">Click anywhere or press back to dismiss</string>
+
+    <!--QRCode-->
+    <string name="scan">Scan Now</string>
+    <string name="name">Name</string>
+    <string name="remark">Remark (Optional)</string>
+    <string name="error_empty">Name is required</string>
+    <string name="error_exist">This name already exists</string>
+    <string name="error_title">Add failed</string>
+    <string name="error_content">Add failed, please make sure it\'s the right QR code and scan again. </string>
+    <string name="scan_succeed">Adding succeed</string>
+
+    <!--TableList-->
+    <string name="setAsFavour">Set As Special Concern</string>
+    <string name="setAsPrimary">Set As Primary</string>
+    <string name="delete">Delete</string>
+    <string name="deleteSucceed">Delete succeed</string>
+    <string name="denyPrimary">You can\'t set primary table as favourite</string>
+    <string name="emptyList">Table List is empty.</string>
+    <string name="naviToAdd">Please click \"+\" on the top right corner to add.</string>
+
+    <!--WebView-->
+    <string name="webview">Log in to Ebridge</string>
+    <string name="progressTitle">Fetching timetable</string>
+    <string name="progressContent">Login success, loading…</string>
+    <string name="complete">Complete Info.</string>
+    <string name="confirm">Confirm</string>
+
+    <!--Schedule-->
+    <string name="underDev">This function is under development.</string>
+    <string name="plzWait">Please wait for 1.0 version.</string>
+    <string name="di">" "</string>
+    <string name="zhou">" "</string>
+</resources>

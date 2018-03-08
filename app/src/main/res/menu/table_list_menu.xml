@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/addNewTable"
+        android:orderInCategory="100"
+        android:title="@string/addNewTable"
+        android:icon="@drawable/ic_add"
+        app:showAsAction="always">
+        <menu>
+            <item android:title="@string/addByLogin"
+                android:id="@+id/addByLogin">
+
+            </item>
+
+            <item android:title="@string/addByScan"
+                android:id="@+id/addByScan">
+
+            </item>
+        </menu>
+    </item>
+</menu>
