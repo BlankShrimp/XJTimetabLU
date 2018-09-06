@@ -32,14 +32,12 @@ Open a timetable -> Menu list on the top right corner -> Generate QR code
 ### 3. Add time table by scanning QR code
 
 1. Timetable List -> Add button on the top right corner -> Scan QR code
-
 2. Complete information and SCAN NOW
-
 3. Scan code. Since the code carries tons of information, please be aware of that the scan might failed. If this happens, please scan again. 
-
 4. Check your timetable in table list
 
-    
+
+This function remains recognition issues. In the future, a network database might be added. 
 
 ###4. Set timetable as primary table 
 

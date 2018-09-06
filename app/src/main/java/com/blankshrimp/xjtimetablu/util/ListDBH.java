@@ -14,7 +14,7 @@ public class ListDBH extends SQLiteOpenHelper {
     //type 0 stands for account, type 1 stands for QR code
     //favour 1 stands for favourite, 2 stands for others
     //primary 1 stands for primary, 2 stands for others
-    public static final String CREATE_TABLE = "create table timetable (" +
+    private static final String CREATE_TABLE = "create table timetable (" +
             "id integer primary key autoincrement, " +
             "account text, " +
             "favour integer, " +
@@ -29,6 +29,8 @@ public class ListDBH extends SQLiteOpenHelper {
         mContext = context;
     }
 
+
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE);
@@ -37,5 +39,7 @@ public class ListDBH extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVer, int newVer) {
+        String sql = "alter table timetable add fingerprint varchar(30)";
+
     }
 }

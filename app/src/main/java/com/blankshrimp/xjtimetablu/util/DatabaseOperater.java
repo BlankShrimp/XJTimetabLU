@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.blankshrimp.xjtimetablu.R;
@@ -21,19 +20,14 @@ import java.util.Map;
 public class DatabaseOperater {
 
     public DatabaseOperater() {
+
     }
 
     public List<List<Map<String, String>>> getDataForWeekly(String id, Context context) {
         List<List<Map<String, String>>> result = new ArrayList<>();
 
-        ListDBH listDBH = new ListDBH(context, "list.db", null, 1);
-        SQLiteDatabase getFileName = listDBH.getWritableDatabase();
-        Cursor getFileNameCursor = getFileName.query("timetable", new String[]{"weekformat"}, "account=?", new String[]{id}, null, null, null);
-
-        getFileNameCursor.moveToFirst();
-        String[] weekFormat = getFileNameCursor.getString(getFileNameCursor.getColumnIndex("weekformat")).split("-");
-        getFileNameCursor.close();
-        getFileName.close();
+        NewListDAO newListDAO = new NewListDAO(context);
+        String[] weekFormat = newListDAO.queryWeekformat(id).split("-");
 
         id = addDash(id);
         id += ".db";
@@ -167,24 +161,15 @@ public class DatabaseOperater {
     }
 
     public void delete(Context context, String id) {
-        ListDBH listDBH = new ListDBH(context, "list.db", null, 1);
-        SQLiteDatabase db = listDBH.getWritableDatabase();
-        db.delete("timetable", "account = ?", new String[] {id});
-        id = addDash(id);
-        id += ".db";
-        context.deleteDatabase(id);
+        NewListDAO newListDAO = new NewListDAO(context);
+        ///newListDAO.dropItem(id);
+        //newListDAO.dropTable(id);
         Toast.makeText(context, context.getString(R.string.deleteSucceed), Toast.LENGTH_SHORT);
     }
 
     private List<Integer> getWeekLengthList(String id, Context context) {
-        ListDBH listDBH = new ListDBH(context, "list.db", null, 1);
-        SQLiteDatabase getFileName = listDBH.getWritableDatabase();
-        Cursor getFileNameCursor = getFileName.query("timetable", new String[]{"weekformat"}, "account=?", new String[]{id}, null, null, null);
-
-        getFileNameCursor.moveToFirst();
-        String[] weekFormat = getFileNameCursor.getString(getFileNameCursor.getColumnIndex("weekformat")).split("-");
-        getFileNameCursor.close();
-        getFileName.close();
+        NewListDAO newListDAO = new NewListDAO(context);
+        String[] weekFormat = newListDAO.queryWeekformat(id).split("-");
         List<Integer> list = new ArrayList<>();
         for (int i = 0; i < weekFormat.length; i++) {
             list.add(Integer.parseInt(weekFormat[i]));
@@ -193,14 +178,8 @@ public class DatabaseOperater {
     }
 
     public int[] getWeekLength(String id, Context context) {
-        ListDBH listDBH = new ListDBH(context, "list.db", null, 1);
-        SQLiteDatabase getFileName = listDBH.getWritableDatabase();
-        Cursor getFileNameCursor = getFileName.query("timetable", new String[]{"weekformat"}, "account=?", new String[]{id}, null, null, null);
-
-        getFileNameCursor.moveToFirst();
-        String[] weekFormat = getFileNameCursor.getString(getFileNameCursor.getColumnIndex("weekformat")).split("-");
-        getFileNameCursor.close();
-        getFileName.close();
+        NewListDAO newListDAO = new NewListDAO(context);
+        String[] weekFormat = newListDAO.queryWeekformat(id).split("-");
         List<Integer> list = new ArrayList<>();
         for (int i = 0; i < weekFormat.length; i++) {
             list.add(Integer.parseInt(weekFormat[i]));

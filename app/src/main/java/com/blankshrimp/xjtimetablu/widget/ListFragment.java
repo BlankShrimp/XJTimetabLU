@@ -14,14 +14,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.blankshrimp.xjtimetablu.OthersTableViewer;
 import com.blankshrimp.xjtimetablu.R;
-import com.blankshrimp.xjtimetablu.util.DatabaseOperater;
 import com.blankshrimp.xjtimetablu.util.ListDBH;
+import com.blankshrimp.xjtimetablu.util.NewListDAO;
 import com.blankshrimp.xjtimetablu.util.People;
 import com.blankshrimp.xjtimetablu.util.PeopleAdapter;
 
@@ -174,8 +172,7 @@ public class ListFragment extends Fragment {
             }
             cursor.close();
             db.close();
-            DatabaseOperater databaseOperater = new DatabaseOperater();
-            databaseOperater.delete(xxView.getContext(), targetName);
+            new NewListDAO(xxView.getContext()).deleteRecord(targetName);
             flash();
         }
         return super.onContextItemSelected(item);

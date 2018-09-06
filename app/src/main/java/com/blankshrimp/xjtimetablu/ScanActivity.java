@@ -3,11 +3,8 @@ package com.blankshrimp.xjtimetablu;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -17,8 +14,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.blankshrimp.xjtimetablu.util.DatabaseOperater;
-import com.blankshrimp.xjtimetablu.util.ListDBH;
+import com.blankshrimp.xjtimetablu.util.NewListDAO;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -54,10 +50,6 @@ public class ScanActivity extends AppCompatActivity {
                     name.setError(getString(R.string.error_empty));
                     focusView = name;
                     cancel = true;
-                } else if (!duplicateCheck(nameCapture)) {
-                    name.setError(getString(R.string.error_exist));
-                    focusView = name;
-                    cancel = true;
                 }
 
                 if (cancel) {
@@ -81,21 +73,6 @@ public class ScanActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private boolean duplicateCheck (String input) {
-        boolean result = true;
-        ListDBH listDBH = new ListDBH(ScanActivity.this, "list.db", null, 1);
-        SQLiteDatabase db = listDBH.getWritableDatabase();
-        Cursor cursor = db.query("timetable", null, null, null, null, null,null);
-        if (cursor.moveToFirst()) {
-            do {
-                if (input.equals(cursor.getString(cursor.getColumnIndex("account"))))
-                    return false;
-            } while (cursor.moveToNext());
-        }
-
-        return result;
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode,resultCode,data);
@@ -106,8 +83,11 @@ public class ScanActivity extends AppCompatActivity {
                 name = (AutoCompleteTextView) findViewById(R.id.name);
                 remark = (AutoCompleteTextView) findViewById(R.id.remark);
                 try {
-                    DatabaseOperater databaseOperater = new DatabaseOperater();
-                    //databaseOperater.register(ScanActivity.this, register(captured, name.getText().toString()), name.getText().toString(), remark.getText().toString(), );
+                    NewListDAO newListDAO = new NewListDAO(ScanActivity.this);
+                    //注意，这里需要很多步骤
+                    //首先，captured是指纹，所以需要拿着指纹从服务器获得数据
+                    //然后，需要将获得的数据分别组装成数据表和weekformat
+                    //newListDAO.register(new DataNormalizer().dataNormalize(captured), name, remark, );
                     finish();
                     Toast.makeText(this,getText(R.string.scan_succeed),Toast.LENGTH_LONG).show();
                 } catch (Exception e) {

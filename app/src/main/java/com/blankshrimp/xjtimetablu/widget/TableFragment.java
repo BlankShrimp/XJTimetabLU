@@ -21,7 +21,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.blankshrimp.xjtimetablu.R;
-import com.blankshrimp.xjtimetablu.util.DatabaseOperater;
+import com.blankshrimp.xjtimetablu.util.NewListDAO;
 
 import org.joda.time.DateTime;
 import org.joda.time.Weeks;
@@ -54,9 +54,8 @@ public class TableFragment extends Fragment {
         if (bundle != null) {
             name = bundle.getString("name");
         }
-        DatabaseOperater databaseOperater = new DatabaseOperater();
             tintWeekAndTime(view);
-            displayData(databaseOperater.getDataForWeekly(name, view.getContext()), view);
+            displayData(new NewListDAO(view.getContext()).queryLocalTable(name), view);
         return view;
     }
 
@@ -78,7 +77,7 @@ public class TableFragment extends Fragment {
                     ForegroundColorSpan codeColor = new ForegroundColorSpan(ContextCompat.getColor(this.getContext(), R.color.white));
                     StyleSpan codeStyle1 = new StyleSpan(android.graphics.Typeface.BOLD);
                     StyleSpan codeStyle2 = new StyleSpan(Typeface.ITALIC);
-                    AbsoluteSizeSpan codeSize = new AbsoluteSizeSpan(40);
+                                     AbsoluteSizeSpan codeSize = new AbsoluteSizeSpan(40);
                     sb1.setSpan(codeColor, 0, code.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                     sb1.setSpan(codeStyle1, 0, code.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                     sb1.setSpan(codeStyle2, 0, code.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
@@ -225,7 +224,7 @@ public class TableFragment extends Fragment {
      */
     private boolean weekCheck(Map<String, String> map) {
         DateTime dateTime = new DateTime();
-        DateTime dt = new DateTime(2018, 2, 19, 0, 0, 0, 0);
+        DateTime dt = new DateTime(2018, 9, 3, 0, 0, 0, 0);
         dateTime = dateTime.dayOfWeek().withMinimumValue();
         int currentWeek = Weeks.weeksBetween(dt, dateTime).getWeeks();
 

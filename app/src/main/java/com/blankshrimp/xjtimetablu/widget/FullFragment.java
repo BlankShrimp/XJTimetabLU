@@ -22,7 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.blankshrimp.xjtimetablu.R;
-import com.blankshrimp.xjtimetablu.util.DatabaseOperater;
+import com.blankshrimp.xjtimetablu.util.NewListDAO;
 
 import java.util.List;
 import java.util.Map;
@@ -54,9 +54,9 @@ public class FullFragment extends Fragment {
         if (bundle != null) {
             name = bundle.getString("name");
         }
-        DatabaseOperater databaseOperater = new DatabaseOperater();
-        displayData(databaseOperater.getDataForFull(name, view.getContext()), view);
-        drawWeeks(databaseOperater.getWeekLength(name, view.getContext()), view);
+        NewListDAO newListDAO = new NewListDAO(view.getContext());
+        displayData(newListDAO.queryGeneralTable(name), view);
+        drawWeeks(newListDAO.getWeekLength(name, view.getContext()), view);
 
         return view;
     }

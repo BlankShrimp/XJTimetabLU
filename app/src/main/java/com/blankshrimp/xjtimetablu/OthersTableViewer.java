@@ -14,7 +14,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.blankshrimp.xjtimetablu.util.DatabaseOperater;
+import com.blankshrimp.xjtimetablu.util.NewListDAO;
 import com.blankshrimp.xjtimetablu.util.QRCodeUtil;
 import com.blankshrimp.xjtimetablu.widget.FullFragment;
 import com.blankshrimp.xjtimetablu.widget.TableFragment;
@@ -40,7 +40,7 @@ public class OthersTableViewer extends AppCompatActivity {
         TableFragment table_view_fragment = new TableFragment();
         table_view_fragment.setArguments(bundle);
         currentName = bundle.getString("name").toString();
-        setTitle(currentName);
+        setTitle(new NewListDAO(OthersTableViewer.this).queryName(currentName));
         replaceFragment(table_view_fragment);
 
     }
@@ -90,7 +90,7 @@ public class OthersTableViewer extends AppCompatActivity {
                 final Dialog dialog = new Dialog(OthersTableViewer.this, R.style.edit_AlertDialog_style);
                 dialog.setContentView(R.layout.qr_code_image);
                 ImageView imageView = (ImageView) dialog.findViewById(R.id.qrCodeImageView);
-                Bitmap bitmap = QRCodeUtil.createQRCodeBitmap(originDataForQRCode(new DatabaseOperater().getDataForFull(currentName, OthersTableViewer.this)), 960, 960);
+                Bitmap bitmap = QRCodeUtil.createQRCodeBitmap(new NewListDAO(OthersTableViewer.this).queryContent(currentName), 960, 960);
                 imageView.setImageBitmap(bitmap);
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override

@@ -3,9 +3,9 @@ package com.blankshrimp.xjtimetablu;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -20,10 +20,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.blankshrimp.xjtimetablu.util.DatabaseOperater;
-import com.blankshrimp.xjtimetablu.util.ListDBH;
+import com.blankshrimp.xjtimetablu.util.NewListDAO;
 import com.blankshrimp.xjtimetablu.util.QRCodeUtil;
 import com.blankshrimp.xjtimetablu.widget.FullFragment;
 import com.blankshrimp.xjtimetablu.widget.ListFragment;
@@ -35,6 +35,7 @@ import com.blankshrimp.xjtimetablu.widget.TableFragment;
 import org.joda.time.DateTime;
 import org.joda.time.Weeks;
 
+import java.io.File;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -45,6 +46,11 @@ public class MainActivity extends AppCompatActivity
     private boolean weeklyTable = true;
     private Menu mMenu;
     private String currentName;
+    private View headerView;
+    private TextView idTextView;
+    private TextView desTextView;
+    private de.hdodenhof.circleimageview.CircleImageView headView;
+    private SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +80,26 @@ public class MainActivity extends AppCompatActivity
         navigationView.setCheckedItem(navigationView.getMenu().getItem(0).getItemId());
         setTitle(this.getString(R.string.PrimaryTable) + getWeeks());
         navigationView.setNavigationItemSelectedListener(this);
+
+        sp = getSharedPreferences("com.blankshrimp.xjtimetablu_preferences", Context.MODE_PRIVATE);
+        headerView = navigationView.getHeaderView(0);
+        idTextView = (TextView) headerView.findViewById(R.id.navID);
+        desTextView = (TextView) headerView.findViewById(R.id.navDes);
+        headView = (de.hdodenhof.circleimageview.CircleImageView) headerView.findViewById(R.id.imageView);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String ID = sp.getString("navID", "XJTLU");
+        String Description = sp.getString("navDescription", "Your.Name1x@xjtlu.edu.cn");
+        String head = sp.getString("headIcon", "0");
+        idTextView.setText(ID);
+        desTextView.setText(Description);
+        if (!head.equals("0")) {
+            File temp = new File(head);
+            headView.setImageURI(Uri.fromFile(temp));
+        }
     }
 
     @Override
@@ -137,7 +163,7 @@ public class MainActivity extends AppCompatActivity
             final Dialog dialog = new Dialog(MainActivity.this, R.style.edit_AlertDialog_style);
             dialog.setContentView(R.layout.qr_code_image);
             ImageView imageView = (ImageView) dialog.findViewById(R.id.qrCodeImageView);
-            Bitmap bitmap = QRCodeUtil.createQRCodeBitmap(originDataForQRCode(new DatabaseOperater().getDataForFull(currentName, MainActivity.this)), 1000, 1000);
+            Bitmap bitmap = QRCodeUtil.createQRCodeBitmap(new NewListDAO(MainActivity.this).queryContent(currentName), 1000, 1000);
             imageView.setImageBitmap(bitmap);
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -227,6 +253,8 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_settings) {
             //setTitle(R.string.settings);
+            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_about) {
             //setTitle(R.string.about);
@@ -239,65 +267,27 @@ public class MainActivity extends AppCompatActivity
     }
 
     private boolean checkPrimaryExist(Context context) {
-        ListDBH listDBH = new ListDBH(context, "list.db", null, 1);
-        SQLiteDatabase db = listDBH.getWritableDatabase();
-        Cursor cursor = db.query("timetable", null, null, null, null, null, null);
-        if (cursor.moveToFirst()) {
-            do {
-                if (1 == cursor.getInt(cursor.getColumnIndex("prime")))
-                    return true;
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-
-        return false;
+        String primary = sp.getString("primary", "NaN");
+        if (primary.equals("NaN"))
+            return false;
+        return true;
     }
 
     private boolean checkFavExist(Context context) {
-        ListDBH listDBH = new ListDBH(context, "list.db", null, 1);
-        SQLiteDatabase db = listDBH.getWritableDatabase();
-        Cursor cursor = db.query("timetable", null, null, null, null, null, null);
-        if (cursor.moveToFirst()) {
-            do {
-                if (1 == cursor.getInt(cursor.getColumnIndex("favour")))
-                    return true;
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-
-        return false;
+        String favourite = sp.getString("favourite", "NaN");
+        if (favourite.equals("NaN"))
+            return false;
+        return true;
     }
 
     private String myTable(Context context) {
-        String name = new String();
-        ListDBH listDBH = new ListDBH(context, "list.db", null, 1);
-        SQLiteDatabase db = listDBH.getWritableDatabase();
-        Cursor cursor = db.query("timetable", null, null, null, null, null, null);
-        if (cursor.moveToFirst()) {
-            do {
-                if (1 == cursor.getInt(cursor.getColumnIndex("prime")))
-                    name = cursor.getString(cursor.getColumnIndex("account"));
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-
+        String name = sp.getString("primary", "NaN");
         currentName = name;
         return name;
     }
 
     private String favTable(Context context) {
-        String name = new String();
-        ListDBH listDBH = new ListDBH(context, "list.db", null, 1);
-        SQLiteDatabase db = listDBH.getWritableDatabase();
-        Cursor cursor = db.query("timetable", null, null, null, null, null, null);
-        if (cursor.moveToFirst()) {
-            do {
-                if (1 == cursor.getInt(cursor.getColumnIndex("favour")))
-                    name = cursor.getString(cursor.getColumnIndex("account"));
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-
+        String name = sp.getString("favourite", "NaN");
         currentName = name;
         return name;
     }
@@ -313,17 +303,17 @@ public class MainActivity extends AppCompatActivity
 
     public String getWeeks() {
         DateTime dateTime = new DateTime();
-        DateTime dt = new DateTime(2018, 2, 19, 0, 0, 0, 0);
+        DateTime dt = new DateTime(2018, 9, 3, 0, 0, 0, 0);
         dateTime = dateTime.dayOfWeek().withMinimumValue();
         String weeks = "" + Weeks.weeksBetween(dt, dateTime).getWeeks();
         String results = null;
 
         DateTime now = new DateTime();
-        DateTime wh = new DateTime(2018, 2, 26, 0, 0, 0, 0);
-        DateTime sh = new DateTime(2018, 6, 4, 0, 0, 0, 0);
-        if (now.isBefore(wh))
+        DateTime wh = new DateTime(2019, 1, 17, 0, 0, 0, 0);
+        DateTime sh = new DateTime(2018, 9, 10, 0, 0, 0, 0);
+        if (now.isAfter(wh))
             results = " " + MainActivity.this.getString(R.string.winterHoliday);
-        else if (now.isAfter(sh))
+        else if (now.isBefore(sh))
             results = " " + MainActivity.this.getString(R.string.summerHoliday);
         else {
             String locale = Locale.getDefault().getLanguage();
@@ -337,7 +327,7 @@ public class MainActivity extends AppCompatActivity
         return results;
     }
 
-    private String originDataForQRCode (List<List<Map<String, String>>> input) {
+    private String originDataForQRCode(List<List<Map<String, String>>> input) {
         String result = new String();
         for (int i = 0; i < input.size(); i++) {
             if (input.get(i).size() == 0) {

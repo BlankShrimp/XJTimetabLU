@@ -274,10 +274,10 @@
                     android:layout_height="match_parent">
 
                     <FrameLayout
+                        android:id="@+id/classContainer"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:id="@+id/classContainer">
+                        android:orientation="horizontal">
 
                     </FrameLayout>
 

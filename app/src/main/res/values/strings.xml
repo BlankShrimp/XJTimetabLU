@@ -78,4 +78,30 @@
     <string name="plzWait">Please wait for 1.0 version.</string>
     <string name="di">" "</string>
     <string name="zhou">" "</string>
+
+    <!--Settings-->
+    <string name="weekSetting">Week</string>
+    <string name="semester">Current Semester</string>
+    <string name="fall">Semester 1</string>
+    <string name="spring">Semester 2</string>
+
+    <string name="customise">Customise</string>
+    <string name="keyCusID">Change ID</string>
+    <string name="sumCusID">Customise ID on navigation menu</string>
+    <string name="keyCusDes">Change Description</string>
+    <string name="sumCusDes">Customise description on navigation menu</string>
+    <string name="keyCusHead">Change Head Icon</string>
+    <string name="sumCusHead">Customise head icon on navigation menu</string>
+    <string name="keyCusBack">Change Background</string>
+    <string name="sumCusBack">Customise background image on navigation menu</string>
+
+    <string name="clear">Clear Data</string>
+    <string name="clearSettings">Clear Settings</string>
+    <string name="clearAllData">Clear All Data</string>
+    <string name="sumClear">CAUTION! This operation will clear all timetables and settings.</string>
+    <string name="sumClearSettings">This operation will only clear settings above, but not timetables. </string>
+    <string name="selectPic">Select By…</string>
+    <string name="selectBy">Select your photo by…</string>
+    <string name="choseFromAlbum">From album</string>
+    <string name="takePhoto">Take photo</string>
 </resources>

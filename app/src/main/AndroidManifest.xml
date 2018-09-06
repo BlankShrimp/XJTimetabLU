@@ -20,7 +20,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -30,7 +29,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity><!--Main-->
+        </activity> <!-- Main -->
 
         <activity
             android:name=".WebviewActivity"
@@ -42,13 +41,12 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="com.LOGIN_ACTIVITY" />
             </intent-filter>
-        </activity><!--WebView-->
+        </activity> <!-- WebView -->
 
         <activity
             android:name=".WebviewRegister"
             android:label="@string/webview"
-            android:theme="@style/AppThemeCus">
-        </activity><!--WebReg-->
+            android:theme="@style/AppThemeCus" /> <!-- WebReg -->
 
         <activity
             android:name=".ScanActivity"
@@ -61,13 +59,25 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="com.SCAN_ACTIVITY" />
             </intent-filter>
-        </activity><!--Scan-->
+        </activity> <!-- Scan -->
 
         <activity
             android:name=".OthersTableViewer"
-            android:theme="@style/AppThemeCus">
-        </activity><!--Others-->
+            android:theme="@style/AppThemeCus" /> <!-- Others -->
 
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/Settings"
+            android:theme="@style/AppThemeCus" /> <!-- Settings -->
+
+        <activity android:name=".EmptyActivity">
+            <intent-filter>
+                <action android:name="com.example.activitytest.ACTION_START" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="com.EMPTY_ACTIVITY" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
