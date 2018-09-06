@@ -105,6 +105,32 @@ public class NewListDAO {
         return result;
     }
 
+    public List<People> queryListOfPeople() {
+        SQLiteDatabase db = newListDBH.getReadableDatabase();
+        Cursor cursor = db.query("timetable", null, null, null, null, null,null);
+        List<People> list = new ArrayList<>();
+        if (cursor.moveToFirst()) {
+            do {
+                String Name = cursor.getString(cursor.getColumnIndex("account"));
+                String remark = cursor.getString(cursor.getColumnIndex("remark"));
+
+                People people = new People(Name, remark);
+                list.add(people);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return list;
+    }
+
+    public String returnFingerprint(int id) {
+        String result = new String();
+        SQLiteDatabase db = newListDBH.getReadableDatabase();
+        Cursor cursor = db.query("timetable", new String[]{"fingerprint"}, null, null, null, null, null);
+        cursor.moveToPosition(id);
+        result = cursor.getString(cursor.getColumnIndex("fingerprint"));
+        return result;
+    }
+
     //Operation on each person's table
     void createNewTable(String fingerprint) {
         SQLiteDatabase db = newListDBH.getWritableDatabase();

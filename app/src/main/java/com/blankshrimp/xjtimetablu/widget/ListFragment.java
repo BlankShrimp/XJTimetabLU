@@ -1,10 +1,8 @@
 package com.blankshrimp.xjtimetablu.widget;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.ContextMenu;
@@ -18,12 +16,10 @@ import android.widget.ListView;
 
 import com.blankshrimp.xjtimetablu.OthersTableViewer;
 import com.blankshrimp.xjtimetablu.R;
-import com.blankshrimp.xjtimetablu.util.ListDBH;
 import com.blankshrimp.xjtimetablu.util.NewListDAO;
 import com.blankshrimp.xjtimetablu.util.People;
 import com.blankshrimp.xjtimetablu.util.PeopleAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -43,20 +39,7 @@ public class ListFragment extends Fragment {
         xxView = view;
 
         //read data from list.db and assemble data into people object
-        ListDBH listDBH = new ListDBH(view.getContext(), "list.db", null, 1);
-        SQLiteDatabase db = listDBH.getWritableDatabase();
-        Cursor cursor = db.query("timetable", null, null, null, null, null,null);
-        list = new ArrayList<>();
-        if (cursor.moveToFirst()) {
-            do {
-                String Name = cursor.getString(cursor.getColumnIndex("account"));
-                String remark = cursor.getString(cursor.getColumnIndex("remark"));
-
-                People people = new People(Name, remark);
-                list.add(people);
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
+        list = new NewListDAO(view.getContext()).queryListOfPeople();
 
         //set an Adapter and apply it to listview
         mPeopleAdapter = new PeopleAdapter(view.getContext(), R.layout.list_person, list);
@@ -107,73 +90,24 @@ public class ListFragment extends Fragment {
         if (item.getItemId() == 0) {
             //favourite
             int target = menuInfo.position;
-            ListDBH listDBH = new ListDBH(xxView.getContext(), "list.db", null, 1);
-            SQLiteDatabase db = listDBH.getWritableDatabase();
-            ContentValues values = new ContentValues();
-            Cursor cursor = db.query("timetable", null, null, null, null, null,null);
-            String targetName = new String();
-            int match = 0;
-            if (cursor.moveToFirst()) {
-                do {
-                    if (target == match) {
-                        targetName = cursor.getString(cursor.getColumnIndex("account"));
-
-                    }
-                    match++;
-                } while (cursor.moveToNext());
-            }
-            cursor.close();
-            values.put("favour", 2);
-            db.update("timetable", values, "favour = ?", new String[] {"1"});
-            values.put("favour", 1);
-            db.update("timetable", values, "account = ?", new String[] {targetName});
-            db.close();
+            SharedPreferences sp = this.getActivity().getSharedPreferences("com.blankshrimp.xjtimetablu_preferences", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putString("favourite", new NewListDAO(xxView.getContext()).returnFingerprint(target));
+            editor.apply();
 
         } else if (item.getItemId() == 1) {
             //primary
             int target = menuInfo.position;
-            ListDBH listDBH = new ListDBH(xxView.getContext(), "list.db", null, 1);
-            SQLiteDatabase db = listDBH.getWritableDatabase();
-            ContentValues values = new ContentValues();
-            Cursor cursor = db.query("timetable", null, null, null, null, null,null);
-            String targetName = new String();
-            int match = 0;
-            if (cursor.moveToFirst()) {
-                do {
-                    if (target == match) {
-                        targetName = cursor.getString(cursor.getColumnIndex("account"));
-
-                    }
-                    match++;
-                } while (cursor.moveToNext());
-            }
-            cursor.close();
-            values.put("prime", 2);
-            db.update("timetable", values, "prime = ?", new String[] {"1"});
-            values.put("prime", 1);
-            db.update("timetable", values, "account = ?", new String[] {targetName});
-            db.close();
+            SharedPreferences sp = this.getActivity().getSharedPreferences("com.blankshrimp.xjtimetablu_preferences", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putString("primary", new NewListDAO(xxView.getContext()).returnFingerprint(target));
+            editor.apply();
 
         } else if (item.getItemId() == 2) {
             //delete
             int target = menuInfo.position;
-            ListDBH listDBH = new ListDBH(xxView.getContext(), "list.db", null, 1);
-            SQLiteDatabase db = listDBH.getWritableDatabase();
-            Cursor cursor = db.query("timetable", null, null, null, null, null,null);
-            String targetName = new String();
-            int match = 0;
-            if (cursor.moveToFirst()) {
-                do {
-                    if (target == match) {
-                        targetName = cursor.getString(cursor.getColumnIndex("account"));
-                    }
-                    match++;
-                } while (cursor.moveToNext());
-            }
-            cursor.close();
-            db.close();
-            new NewListDAO(xxView.getContext()).deleteRecord(targetName);
-            flash();
+            NewListDAO newListDAO = new NewListDAO(xxView.getContext());
+            newListDAO.deleteRecord(newListDAO.returnFingerprint(target));
         }
         return super.onContextItemSelected(item);
     }
@@ -185,20 +119,8 @@ public class ListFragment extends Fragment {
 
     private void flash () {
         //just reloading
-        ListDBH listDBH = new ListDBH(xxView.getContext(), "list.db", null, 1);
-        SQLiteDatabase db = listDBH.getWritableDatabase();
-        Cursor cursor = db.query("timetable", null, null, null, null, null,null);
-        list = new ArrayList<>();
-        if (cursor.moveToFirst()) {
-            do {
-                String Name = cursor.getString(cursor.getColumnIndex("account"));
-                String remark = cursor.getString(cursor.getColumnIndex("remark"));
-
-                People people = new People(Name, remark);
-                list.add(people);
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
+        NewListDAO newListDAO = new NewListDAO(xxView.getContext());
+        list = newListDAO.queryListOfPeople();
 
         mPeopleAdapter = new PeopleAdapter(xxView.getContext(), R.layout.list_person, list);
         mListView = (ListView) xxView.findViewById(R.id.people_listlist);
