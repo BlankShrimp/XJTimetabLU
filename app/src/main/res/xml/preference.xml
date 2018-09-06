@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/customise">
+
+    <PreferenceCategory
+        android:title="@string/weekSetting">
+
+        <ListPreference
+            android:title="@string/semester"
+
+            android:entries="@array/list_semester"
+            android:key="semester" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/customise">
+
+        <EditTextPreference
+            android:title="@string/keyCusID"
+            android:summary="@string/sumCusID"
+            android:key="navID"/>
+
+        <EditTextPreference
+            android:title="@string/keyCusDes"
+            android:summary="@string/sumCusDes"
+            android:key="navDescription"/>
+
+        <com.blankshrimp.xjtimetablu.widget.HeadIconPreference
+            android:title="@string/keyCusHead"
+            android:summary="@string/sumCusHead"
+            android:key="headIcon"/>
+
+        <Preference
+            android:title="@string/keyCusBack"
+            android:summary="@string/sumCusBack"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/clear">
+
+        <Preference
+            android:title="@string/clearSettings"
+            android:summary="@string/sumClearSettings"/>
+
+        <Preference
+            android:title="@string/clearAllData"
+            android:summary="@string/sumClear"/>
+
+    </PreferenceCategory>
+</PreferenceScreen>
